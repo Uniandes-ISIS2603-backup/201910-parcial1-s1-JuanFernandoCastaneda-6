@@ -6,9 +6,12 @@
 package co.edu.uniandes.csw.recipes.test.logic;
 
 import co.edu.uniandes.csw.recipes.ejb.RecipeLogic;
+import co.edu.uniandes.csw.recipes.entities.IngredientEntity;
 import co.edu.uniandes.csw.recipes.entities.RecipeEntity;
 import co.edu.uniandes.csw.recipes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.recipes.persistence.RecipePersistence;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -57,6 +60,10 @@ public class RecipeLogicTest {
     public void createRecipeTest() throws BusinessLogicException {
         PodamFactory factory = new PodamFactoryImpl();
         RecipeEntity newEntity = factory.manufacturePojo(RecipeEntity.class);
+        IngredientEntity ingrediente = factory.manufacturePojo(IngredientEntity.class);
+        List<IngredientEntity> ingredientes = new ArrayList<>();
+        ingredientes.add(ingrediente);
+        newEntity.setIngredientes(ingredientes);
         Assert.assertTrue(recipePersistence.find(newEntity.getId()) == null);
         newEntity = recipeLogic.createRecipe(newEntity);
         Assert.assertTrue(recipePersistence.find(newEntity.getId()) != null);
@@ -64,6 +71,7 @@ public class RecipeLogicTest {
         Assert.assertEquals(newEntity.getId(), recipeInDB.getId());
         Assert.assertEquals(newEntity.getName(), recipeInDB.getName());
         Assert.assertEquals(newEntity.getDescription(), recipeInDB.getDescription());
+        Assert.assertEquals(newEntity.getIngredientes().get(0), ingrediente);
     }
 
     /**
@@ -142,7 +150,7 @@ public class RecipeLogicTest {
     }
 
     /**
-     * Descripción mayor a 300 caracteres
+     * Descripción mayor a 150 caracteres.
      *
      * @throws BusinessLogicException
      */

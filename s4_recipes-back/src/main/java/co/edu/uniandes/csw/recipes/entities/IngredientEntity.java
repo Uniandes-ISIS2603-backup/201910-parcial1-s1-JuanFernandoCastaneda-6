@@ -7,8 +7,44 @@ package co.edu.uniandes.csw.recipes.entities;
 
 /**
  *
- * @author estudiante
+ * @author jf.castaneda
  */
 public class IngredientEntity {
+    
+    private String name;
+    
+    private Long calories;
+    
+    private Long id;
+    
+    public IngredientEntity() {
+        
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getCalories() {
+        return calories;
+    }
+
+    public void setCalories(Long calories) {
+        this.calories = calories;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    
     
 }

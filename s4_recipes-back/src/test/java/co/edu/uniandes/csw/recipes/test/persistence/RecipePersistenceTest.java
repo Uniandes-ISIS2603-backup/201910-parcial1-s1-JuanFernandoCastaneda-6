@@ -5,8 +5,11 @@
  */
 package co.edu.uniandes.csw.recipes.test.persistence;
 
+import co.edu.uniandes.csw.recipes.entities.IngredientEntity;
 import co.edu.uniandes.csw.recipes.entities.RecipeEntity;
 import co.edu.uniandes.csw.recipes.persistence.RecipePersistence;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -47,8 +50,13 @@ public class RecipePersistenceTest {
     public void createRecipeTest() {
         PodamFactory factory = new PodamFactoryImpl();
         RecipeEntity newEntity = factory.manufacturePojo(RecipeEntity.class);
+        IngredientEntity ingredient = factory.manufacturePojo(IngredientEntity.class);
+        List<IngredientEntity> ingredientes = new ArrayList<>();
+        ingredientes.add(ingredient);
+        newEntity.setIngredientes(ingredientes);
         Assert.assertTrue(recipePersistence.find(newEntity.getId()) == null);
         em.persist(newEntity);
         Assert.assertTrue(recipePersistence.find(newEntity.getId()) != null);
+        Assert.assertEquals(recipePersistence.find(newEntity.getId()).getIngredientes().get(0), ingredient);
     }
 }
